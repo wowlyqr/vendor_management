@@ -1,0 +1,14 @@
+flask
+# flask-mongoengine
+mongoengine
+flask-socketio
+flask-limiter
+flask_cors
+pandas
+openpyxl
+pydantic
+pytest
+pydantic[email]
+python-dotenv
+flask-jwt-extended
+werkzeug 

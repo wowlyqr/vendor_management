@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" style="margin:0; padding:0; background-color:#f5f7fa;">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+</head>
+<body style="margin:0; padding:0; font-family:Arial, Helvetica, sans-serif; background-color:#f5f7fa;">
+
+  <!-- Full width wrapper -->
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" bgcolor="#f5f7fa" role="presentation">
+    <tr>
+      <td align="center" style="padding:20px 10px;">
+        
+        <!-- Main container -->
+        <table align="center" cellpadding="0" cellspacing="0" border="0" width="100%" 
+               style="max-width:600px; background:#ffffff; border-radius:8px; 
+                      box-shadow:0 2px 6px rgba(0,0,0,0.1);" role="presentation">
+
+          <!-- Header -->
+          <tr>
+            <td style="background:#4a90e2; padding:20px; text-align:center; border-radius:8px 8px 0 0;">
+              <h2 style="color:#ffffff; margin:0;">Welcome to Our Platform 🎉</h2>
+            </td>
+          </tr>
+
+          <!-- Body -->
+          <tr>
+            <td style="padding:30px; color:#333333; font-size:15px; line-height:1.6;">
+              <p>Hi,</p>
+              <p>We’re excited to have you with us! Your account has been successfully created.</p>
+
+              <!-- Credentials -->
+              <p>Here are your login details:</p>
+              <div style="background:#f9f9f9; border:1px solid #e1e1e1; border-radius:6px; padding:15px; margin:20px 0;">
+                <p style="margin:6px 0;"><b>Email:</b> {{email}}</p>
+                <p style="margin:6px 0;"><b>Temporary Password:</b> {{password}}</p>
+              </div>
+
+              <!-- CTA Button -->
+              <div style="text-align:center; margin:25px 0;">
+                <a href="{{login_url}}" target="_blank" 
+                   style="background:#4a90e2; color:#ffffff; text-decoration:none; font-size:16px; 
+                          font-weight:bold; padding:12px 28px; border-radius:6px; display:inline-block;">
+                  Log in to Your Account
+                </a>
+              </div>
+
+              <!-- Note -->
+              <p style="color:#d9534f; font-weight:bold;">
+                ⚠️ For your security, please update your password immediately after logging in.
+              </p>
+
+              <p>If the button above doesn’t work, copy and paste the link below into your browser:</p>
+              <p style="word-break:break-all; color:#4a90e2;">
+                <a href="{{login_url}}" target="_blank" style="color:#4a90e2;">{{login_url}}</a>
+              </p>
+
+              <p style="margin-top:30px;">Thanks for joining us,<br>The Support Team</p>
+            </td>
+          </tr>
+        </table>
+        <!-- End container -->
+
+      </td>
+    </tr>
+  </table>
+</body>
+</html>
