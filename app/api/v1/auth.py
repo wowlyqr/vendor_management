@@ -24,7 +24,7 @@ def login():
     user = Credentials.objects(email=data.get('email')).first()
 
     if user.update_password == False:
-        return create_response(False,"Update your password to login",{'update_password':False},None,400)
+        return create_response(True,"Update your password to login",{'update_password':False},None,200)
     
     if not user or not check_password_hash(user.password, data.get('password')):
         return create_response(False,'Email or Password Incorrect',None,None,401)
