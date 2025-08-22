@@ -90,10 +90,10 @@ def get_shop_owner():
 def get_shop_owner_byid():  
     request_data = request.args.to_dict()
     id = request_data.get('id')
-    shop_owner = Shop_owner.objects(_id=id).first().to_json()
+    shop_owner = Shop_owner.objects(_id=id).first()
     if not shop_owner:
         return create_response(False,'Shop owner does not exists',None,None,404)
-    response_data = json.loads(shop_owner)
+    response_data = json.loads(shop_owner.to_json())
     return create_response(True,'Data retrevied successfully',response_data,None,200)
 
 

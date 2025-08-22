@@ -90,13 +90,7 @@ def get_all_product():
 
     product = Product.objects(**query_filter).to_json()    
     res_data  = json.loads(product)
-    # response_data = []
-    # for data in res_data:
-    #     category_list = Category.objects(_id = data['primary_product_id']).first().to_json()    
-    #     if category_list:
-    #         category = json.loads(category_list)
-    #         data['primary_category_list'] = category
-    #     response_data.append(data)
+    
   
     return create_response(True,'Data retrevied successfully',res_data,None,200)
 
@@ -106,15 +100,12 @@ def get_all_product():
 def get_product_byid():  
     request_data = request.args.to_dict()
     id = request_data.get('id')
-    product = Product.objects(_id=id).first().to_json()    
+    product = Product.objects(_id=id).first()  
     if not product:
         return create_response(False,'Product does not exists',None,None,404)
-    res_data = json.loads(product)
-    # category_list = Category.objects(_id = res_data['primary_product_id']).first().to_json()    
-    # if category_list:
-    #     category = json.loads(category_list)
-    #     res_data['primary_category_list'] = category
-    return create_response(True,'Data retrevied successfully',res_data,None,200)
+    response_data = json.loads(product.to_json())
+    
+    return create_response(True,'Data retrevied successfully',response_data,None,200)
 
 
 @product_bp.route('/delete_product', methods=['DELETE'])

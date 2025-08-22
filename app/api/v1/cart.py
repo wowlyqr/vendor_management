@@ -49,10 +49,13 @@ def get_cart_details_byid():
 
     current_user = g.current_user
     request_data = request.args.to_dict()
-    product = Cart.objects(_id = request_data.get('id')).first().to_json()    
-    res_data  = json.loads(product)   
+    cart = Cart.objects(_id = request_data.get('id')).first()
+    if not cart:
+        return create_response(False,"Cart does not exists",None,None,404)
+    
+    response_data = json.loads(cart.to_json())
   
-    return create_response(True,'Data retrevied successfully',res_data,None,200)
+    return create_response(True,'Data retrevied successfully',response_data,None,200)
 
 
 @cart_bp.route('/delete_cart', methods=['DELETE'])

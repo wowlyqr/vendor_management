@@ -24,20 +24,7 @@ def create_order():
 
     shop_owner = Shop_owner.objects(_id = current_user).first()
 
-    
-    # product_data = data.get('product_details')
 
-    # product = Product.objects(_id = product_data['product_id']).first()    
-
-    # if not product:        
-    #     return create_response(False,'product not found',None,None,404)
-    
-    # total_quantity = product.available_quantity
-    # order_quantity = product_data['product_quantity']
-    # remaining_quantity = int(total_quantity) - int(order_quantity)
-    # product = Product.objects(_id=product_data['product_id']).first()
-    # if not product:
-    #     return create_response(False,'Product not found',None,None,404)
     
     data['shop_owner_id'] = current_user
     data['shop_id'] = shop_owner['shop_id']
@@ -45,20 +32,13 @@ def create_order():
     data['order_unique_id'] = generate_uniform_unique_id("ORD")
     insert_data = Order_Schema(**data).model_dump()
     insert_data['_id'] = str(uuid.uuid4())    
-
-    # product_data['order_id'] = insert_data['_id'] 
-    # ordered_product_details = Ordered_product_Schema(**product_data).model_dump()
-    # ordered_product_details['_id'] = str(uuid.uuid4())            
+      
 
     order = Order(
         **insert_data
     )
     order.save()
 
-    # ordered_product = Ordered_product(
-    #     **ordered_product_details
-    # )
-    # ordered_product.save()
 
     order_tracking_data={
         "order_id": order.id,
@@ -66,13 +46,7 @@ def create_order():
         "description": "order placed"
     }
     insert_order_tracking = create_order_tracking(order_tracking_data)
-    # insert_order_tracking_data = Order_Tracking_Schema(**order_tracking_data).model_dump()
-    # insert_order_tracking_data['_id'] = str(uuid.uuid4())
-    # order_tracking = Order_Tracking(
-    #     **insert_order_tracking_data
-    # )
-    # order_tracking.save()  
-    # update_product_quantity = Product.objects(_id = product_data['product_id']).update(available_quantity = remaining_quantity)
+   
     product_details = data.get('product_details')
     product_details['order_id'] = order.id
     insert_product_details = create_ordered_product(product_details)
@@ -107,10 +81,12 @@ def get_all_order():
 def get_cart_details_byid():  
 
     request_data = request.args.to_dict()
-    order_details = Order.objects(_id = request_data.get('id')).first().to_json()    
-    res_data  = json.loads(order_details)   
+    order_details = Order.objects(_id = request_data.get('id')).first()
+    if not order_details:
+        return create_response(False,"Order details does not exists",None,None,404)
+    response_data = json.loads(order_details.to_json())
   
-    return create_response(True,'Data retrevied successfully',res_data,None,200)
+    return create_response(True,'Data retrevied successfully',response_data,None,200)
 
 
 @order_bp.route('/get_ordered_product_byid', methods=['GET'])

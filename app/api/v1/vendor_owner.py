@@ -91,8 +91,8 @@ def get_vendor_owner():
 def get_vendor_owner_byid():  
     request_data = request.args.to_dict()
     id = request_data.get('id')
-    vendor_owner = Vendor_owner.objects(_id=id).first().to_json()
+    vendor_owner = Vendor_owner.objects(_id=id).first()
     if not vendor_owner:
         return create_response(False,'Vendor owner does not exists',None,None,404) 
-    response_data = json.loads(vendor_owner)
+    response_data = json.loads(vendor_owner.to_json())
     return create_response(True,'Data retrevied successfully',response_data,None,200) 

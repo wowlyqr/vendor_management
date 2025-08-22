@@ -14,7 +14,8 @@ from .api.v1.category import category_bp
 from .api.v1.order import order_bp
 from .api.v1.order_tracking import order_tracking_bp
 from .api.v1.cart import cart_bp
-from .api.v1.brand_theme import brand_theme
+from .api.v1.brand_theme import brand_theme_bp
+from .api.v1.admin import admin_bp
 from .sockets.events import register_socketio_events
 from .exceptions import register_error_handlers
 
@@ -49,7 +50,8 @@ def create_app(config_class=Config):
     app.register_blueprint(cart_bp, url_prefix='/api/v1/cart')
     app.register_blueprint(order_bp, url_prefix='/api/v1/order')
     app.register_blueprint(order_tracking_bp, url_prefix='/api/v1/order_tracking')
-    app.register_blueprint(brand_theme, url_prefix='/api/v1/brand_theme')
+    app.register_blueprint(brand_theme_bp, url_prefix='/api/v1/brand_theme')
+    app.register_blueprint(admin_bp, url_prefix='/api/v1/admin')
     register_socketio_events(socketio)
 
     return app 

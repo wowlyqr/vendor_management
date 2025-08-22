@@ -88,10 +88,11 @@ def get_all_shop():
 def get_shop_by_id():  
     request_data = request.args.to_dict()
     id = request_data.get('id')
-    shop = Shop.objects(_id=id).first().to_json()
-    response_data = json.loads(shop)
+    shop = Shop.objects(_id=id).first()
     if not shop:
-        return create_response(False,'Shop does not exists',None,None,404)
+        return create_response(False,"Shop does not exists",None,None,404)
+    response_data = json.loads(shop.to_json())
+   
     shop_owner = Shop_owner.objects(shop_id=response_data['_id']).order_by('-createdAt').first()
     if shop_owner:
         response_data['shop_owner_name'] = shop_owner.name

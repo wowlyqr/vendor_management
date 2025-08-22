@@ -6,9 +6,9 @@ from app.helpers.utils import create_response
 from app.models.brand_theme import Brand_theme
 from app.schemas.brand_theme import Brand_theme_Schema
 
-brand_theme = Blueprint('brand_theme', __name__)
+brand_theme_bp = Blueprint('brand_theme', __name__)
 
-@brand_theme.route('/add_brand_theme', methods=['POST'])
+@brand_theme_bp.route('/add_brand_theme', methods=['POST'])
 @validate_token
 def add_brand_theme():  
     current_user = g.current_user
@@ -24,18 +24,20 @@ def add_brand_theme():
     return create_response(True,'Theme added successfully',None,None,201)
 
 
-@brand_theme.route('/get_branch_theme_details', methods=['GET'])
+@brand_theme_bp.route('/get_branch_theme_details', methods=['GET'])
 @validate_token
 def get_branch_theme_details():  
     current_user = g.current_user
-    product = Brand_theme.objects(vendor_owner_id = current_user).first().to_json()   
-    res_data  = json.loads(product)   
+    brand_theme = Brand_theme.objects(vendor_owner_id = current_user).first()
+    if not brand_theme:
+        return create_response(False,"Theme does not exists",None,None,404)
+    response_data = json.loads(brand_theme.to_json())
   
-    return create_response(True,'Data retrevied successfully',res_data,None,200)
+    return create_response(True,'Data retrevied successfully',response_data,None,200)
 
 
 
-@brand_theme.route('/update_brand_theme', methods=['PUT'])
+@brand_theme_bp.route('/update_brand_theme', methods=['PUT'])
 @validate_token
 def update_product():  
     data = request.form.to_dict()
