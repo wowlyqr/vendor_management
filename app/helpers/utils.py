@@ -5,12 +5,10 @@ import string
 from werkzeug.utils import secure_filename
 import boto3
 
-from configparser import ConfigParser
-config = ConfigParser()
-config.read("config.ini")
-AWS_ACCESS_KEY_ID = config.get('development','AWS_ACCESS_KEY_ID')
-AWS_SECRET_ACCESS_KEY = config.get('development','AWS_SECRET_ACCESS_KEY')
-S3_BUCKET_NAME = config.get('development','S3_BUCKET_NAME')
+
+AWS_ACCESS_KEY_ID = "AKIAVX3YTTSGO4R66C36"
+AWS_SECRET_ACCESS_KEY = "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"
+S3_BUCKET_NAME = "vendor-management-images"
 
 # AWS S3 Configuration
 s3 = boto3.client(
