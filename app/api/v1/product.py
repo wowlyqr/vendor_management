@@ -2,7 +2,7 @@ import datetime
 import uuid
 from flask import Blueprint, g, json, request
 from app.decorators.auth import  validate_token
-from app.helpers.utils import create_response, generate_uniform_unique_id
+from app.helpers.utils import create_response, generate_uniform_unique_id, upload_file_to_s3
 from app.models.category import Category
 from app.models.product import Product
 from app.models.shop_owner import Shop_owner
@@ -20,38 +20,24 @@ def create_product():
     data['product_unique_id'] = generate_uniform_unique_id("PRD")
     insert_data = Product_Schema(**data).model_dump()
     insert_data['_id'] = str(uuid.uuid4())
+
+    file_fields = ['image_1','image_2','image_3','image_4']
+
+    try:
+        for field in file_fields:
+            file = request.files.get(field)
+            if file:
+                s3_url = upload_file_to_s3(file, folder="seller_products")
+                insert_data[field] = s3_url
+            
+    except Exception as e:
+        return create_response(False, "File upload failed", None,str(e), 500)
+    
     product = Product(
         **insert_data
     )
     product.save()
-    # if data['category'].lower() == 'pant':
-    #     category_data = {
-    #         'category':data['category'],
-    #         'pant_size': data['pant_size'],
-    #         'pant_colour': data['pant_colour'],
-    #         'pant_price': data['pant_price'],
-    #         'product_id': product.id,
-    #         'quantity': data['quantity'],       
-    #     }
-    #     insert_category_data = Pant_Category_Schema(**category_data).model_dump()       
-
-    # else:
-    #     category_data = {
-    #         'category':data['category'],
-    #         'shirt_size': data['shirt_size'],
-    #         'shirt_colour': data['shirt_colour'],
-    #         'shirt_price': data['shirt_price'],
-    #         'product_id': product.id,
-    #         'quantity': data['quantity'],          
-    #     }
-    #     insert_category_data = Shirt_Category_Schema(**category_data).model_dump()
-
-    # insert_category_data['_id'] = str(uuid.uuid4())
-    # insert_category_data['vendor_owner_id'] = current_user
-    # category = Category(**insert_category_data)
-    # category.save()
-
-    # update_primary_category_data = Product.objects(_id=product.id).update(primary_product_id=category.id)    
+     
 
     return create_response(True,'Product created successfully',None,None,201)
 
@@ -66,6 +52,19 @@ def update_product():
     if not product:        
         return create_response(False,'Product does not exists',None,None,404)
     data.pop('id')
+    
+    file_fields = ['image_1','image_2','image_3','image_4']
+
+    try:
+        for field in file_fields:
+            file = request.files.get(field)
+            if file:
+                s3_url = upload_file_to_s3(file, folder="seller_products")
+                data[field] = s3_url
+            
+    except Exception as e:
+        return create_response(False, "File upload failed", None,str(e), 500)
+    
     product.update(**data)
     return create_response(True,'Data updated successfully',None,None,200)
 

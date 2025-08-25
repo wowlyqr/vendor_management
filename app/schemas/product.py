@@ -5,7 +5,10 @@ from datetime import datetime
 class Product_Schema(BaseModel):
     name: str
     product_unique_id: str
-    image: Optional[str] = None
+    image_1: Optional[str] = None
+    image_2: Optional[str] = None
+    image_3: Optional[str] = None
+    image_4: Optional[str] = None
     category: str  
     vendor_owner_id:str    
     price: Optional[str] = None
