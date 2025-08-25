@@ -9,7 +9,7 @@ class Shop_owner(Document):
     password = StringField(required=True)  # Store hashed password!
     onboarded_time = DateTimeField(default=datetime.datetime.utcnow)
     country_code = IntField(required=True)
-    aadhar_number = StringField(required=False)
+    aadhar_number = StringField(required=False,default=None)
     gender = StringField(required=True)    
     shop_id = StringField(required=True)    
     vendor_id = StringField(required=True)

@@ -9,4 +9,5 @@ class Admin(Document):
     password = StringField(required=True)  # Store hashed password!
     onboarded_time = DateTimeField(default=datetime.datetime.utcnow)
     country_code = IntField(required=True)
-    gender = StringField(required=True)   
+    gender = StringField(required=True)    
+

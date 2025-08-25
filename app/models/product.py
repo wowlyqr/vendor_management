@@ -11,6 +11,7 @@ class Product(Document):
     createdAt = DateTimeField(default=datetime.datetime.utcnow)    
     vendor_owner_id = StringField(required=True)
     primary_product_id = StringField(required=False)
+    description = StringField(required=False,default=None)
     modified_at = DateTimeField(default=None)
     price =  FloatField(required=False)
     available_sizes = StringField(required=False)

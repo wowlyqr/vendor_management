@@ -12,10 +12,6 @@ from werkzeug.security import generate_password_hash
 
 auth_bp = Blueprint('auth', __name__)
 
-
-@auth_bp.route('/ping', methods=['GET'])
-def ping():
-    return "ping",200
 @auth_bp.route('/login', methods=['POST'])
 def login():
     

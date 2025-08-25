@@ -40,6 +40,7 @@ def update_shop():
         return create_response(False,'Shop does not exists',None,None,404)
     data.pop('id')
     shop.update(**data)
+
     return create_response(True,'Data updated successfully',None,None,200)
 
 
@@ -98,9 +99,38 @@ def get_shop_by_id():
         response_data['shop_owner_name'] = shop_owner.name
         response_data['shop_owner_email'] = shop_owner.email
         response_data['shop_owner_mobile'] = shop_owner.mobile
+        response_data['shop_owner_gender'] = shop_owner.gender
+        response_data['shop_owner_aadhar'] = shop_owner.aadhar_number
     else:
         response_data['shop_owner_name'] = None
         response_data['shop_owner_email'] = None
         response_data['shop_owner_mobile'] = None
+        response_data['shop_owner_gender'] = None
+        response_data['shop_owner_aadhar'] = None
         
     return create_response(True,'Data retrevied successfully',response_data,None,200)
+
+
+
+@shop_bp.route('/update_shop_shopowner', methods=['PUT'])
+@validate_token
+def update_shop_shopowner():  
+    data = request.json
+    shop_details= data.get('shop_details')
+    id = shop_details.get("id")
+       
+    shop_details['modified_at'] = datetime.datetime.now
+
+    shop = Shop.objects(_id=id).first()
+    if not shop:        
+        return create_response(False,'Shop does not exists',None,None,404)
+    shop_details.pop('id')
+    
+    shop.update(**shop_details)
+
+    shop_owner_details = data.get('shop_owner_details')
+    shop_owner = Shop_owner.objects(shop_id = id).first()
+    shop_owner.update(**shop_owner_details)
+
+
+    return create_response(True,'Data updated successfully',None,None,200)

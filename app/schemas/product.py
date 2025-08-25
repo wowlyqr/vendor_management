@@ -9,6 +9,7 @@ class Product_Schema(BaseModel):
     category: str  
     vendor_owner_id:str    
     price: Optional[str] = None
+    description: Optional[str] = None
     available_sizes : Optional[str] = None
     available_colors : Optional[str] = None
     available_quantity : Optional[str] = None
