@@ -5,12 +5,18 @@ import string
 from werkzeug.utils import secure_filename
 import boto3
 
-S3_BUCKET_NAME = "vendor-management-images"
+from configparser import ConfigParser
+config = ConfigParser()
+config.read("config.ini")
+AWS_ACCESS_KEY_ID = config.get('development','AWS_ACCESS_KEY_ID')
+AWS_SECRET_ACCESS_KEY = config.get('development','AWS_SECRET_ACCESS_KEY')
+S3_BUCKET_NAME = config.get('development','S3_BUCKET_NAME')
+
 # AWS S3 Configuration
 s3 = boto3.client(
     's3',
-    aws_access_key_id="AKIAVX3YTTSGO4R66C36",
-    aws_secret_access_key="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"
+    aws_access_key_id=AWS_ACCESS_KEY_ID,
+    aws_secret_access_key=AWS_SECRET_ACCESS_KEY
 )
 
 def serialize_data(user):
